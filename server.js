@@ -85,11 +85,14 @@ app.route('/api/exercise/log')
         const logs = data.toObject().log
         const filteredLogs = logs.filter((log)=>log.date>fromDate).filter((log)=>log.date<toDate).slice(0,limit)
         const count = filteredLogs.length
+        filteredLogs.forEach((log)=>{
+          log.date = log.date.toString().slice(0,15)
+        })
         res.send({
           _id: req.query.userId,
           username: data.toObject().username,
-          ...(fromSpec) && {from: fromDate}, //conditional keyvalue pairs
-          ...(toSpec) && {to: toDate},
+          ...(fromSpec) && {from: fromDate.toString().slice(0,15)}, //conditional keyvalue pairs
+          ...(toSpec) && {to: toDate.toString().slice(0,15)},
           count: count,
           log: filteredLogs
         })
