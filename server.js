@@ -116,8 +116,14 @@ app.route('/api/exercise/add')
     .post((req,res)=>{
       User.findById(req.body.userId,(err,user)=>{
         if(err) return res.send(req.body.userId+" is not a userId")
+        const regex = /[^0-9]/
         if(req.body.date){
-          var datt = new Date(req.body.date)
+          if(regex.test(req.body.date) === true){
+            var datt = new Date(req.body.date)
+          }
+          else{
+            var datt = new Date(parseInt(req.body.date))
+          }
         }
         else{
           var datt = new Date()
@@ -131,7 +137,7 @@ app.route('/api/exercise/add')
           if(err) return console.log(err)
           res.send({
             _id: req.body.userId,
-            username: user.toObject().username,
+            username: data.toObject().username,
             date: datt.toString().slice(0,15),
             duration: req.body.duration,
             description: req.body.description
