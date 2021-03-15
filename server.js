@@ -139,7 +139,7 @@ app.route('/api/exercise/add')
             _id: req.body.userId,
             username: data.toObject().username,
             date: datt.toString().slice(0,15),
-            duration: req.body.duration,
+            duration: parseInt(req.body.duration),
             description: req.body.description
           })
         })
